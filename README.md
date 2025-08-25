@@ -211,3 +211,5 @@ flowchart LR
     style D fill:#fff,stroke:#333,stroke-width:2px
     style E fill:#ffc,stroke:#333,stroke-width:2px
 
+## 📌 Autor:
+[Letícia Zago de Souza] – www.linkedin.com/in/letícia-zago-de-souza

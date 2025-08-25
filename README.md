@@ -119,7 +119,7 @@ dotnet run --project TravelBuddy.Destinations.Api
 ### Consultar destino
 
 ```
-GET /api/destinations/Rio%20de%20Janeiro
+GET /api/destinations/Barueri
 ```
 
 Resposta: dados do destino + previsão do tempo.

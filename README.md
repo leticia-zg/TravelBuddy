@@ -53,14 +53,10 @@
 ```json
 {
   "id": "GUID-do-destino",
-  "name": "Rio de Janeiro",
-  "country": "Brasil",
-  "description": "Cidade maravilhosa, famosa pelo Cristo Redentor",
-  "averagePrice": 2200.00,
-  "weather": {
-    "temperature": 28,
-    "condition": "Ensolarado"
-  }
+  "name": "Barueri",
+  "country": "Brazil",
+  "description": "Temperatura atual: 14,2°C, Vento: 11 km/h",
+  "averagePrice": 0
 }
 ```
 

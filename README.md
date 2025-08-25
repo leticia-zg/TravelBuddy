@@ -2,96 +2,90 @@
 
 ## 📌 Sobre o Projeto
 
-O **TravelBuddy** é uma solução em .NET para gerenciamento de reservas de viagens e consulta de informações de destinos, incluindo previsão do tempo por cidade. A arquitetura é organizada em múltiplos projetos e camadas bem definidas:
+**TravelBuddy** é uma plataforma .NET que centraliza reservas de viagens e fornece informações de destinos, incluindo previsão do tempo e detalhes turísticos. O sistema segue uma arquitetura de microsserviços, com projetos separados por responsabilidade para maior escalabilidade e manutenção.
 
-### APIs
+### Estrutura de Projetos
 
-* **TravelBuddy.Destinations.Api**: expõe endpoints REST para consulta de destinos e clima.
-* **TravelBuddy.Reservations.Api**: expõe endpoints REST para cadastro e consulta de reservas.
+| Camada               | Projeto                                    | Função                                                   |
+| -------------------- | ------------------------------------------ | -------------------------------------------------------- |
+| APIs                 | **TravelBuddy.Destinations.Api**           | Fornece informações de destinos e clima                  |
+| APIs                 | **TravelBuddy.Reservations.Api**           | Gerencia criação e consulta de reservas                  |
+| Aplicação / Domínio  | **TravelBuddy.Application**                | Contratos e orquestração de casos de uso                 |
+| Persistência         | **TravelBuddy.Infrastructure.Persistence** | DbContext, repositórios e mapeamentos (EF Core + Oracle) |
+| Integrações externas | **TravelBuddy.Infrastructure.Integration** | Clientes HTTP para APIs externas (ex.: OpenMeteo)        |
+| Contratos            | **TravelBuddy.Shared.Contracts**           | DTOs compartilhados entre camadas                        |
+| Interface Web        | **TravelBuddy.Web.Mvc**                    | UI interna para criar, listar e consultar reservas       |
 
-### Camada de Aplicação / Domínio
-
-* **TravelBuddy.Application** — contratos e orquestração de casos de uso (serviços de destinos e reservas).
-
-### Persistência
-
-* **TravelBuddy.Infrastructure.Persistence** — mapeamentos, DbContext e repositórios (EF Core + Oracle).
-
-### Integrações externas
-
-* **TravelBuddy.Infrastructure.Integration** — cliente HTTP para integração com provedores de clima (OpenMeteo).
-
-### Contratos (DTOs)
-
-* **TravelBuddy.Shared.Contracts** — requests/responses compartilhados entre camadas.
-
-### Interface Web (MVC)
-
-* **TravelBuddy.Web.Mvc** — interface web interna para consultar destinos, criar e listar reservas.
+> Observação: o sistema contém duas APIs e um front-end MVC para uso interno; não há módulo de pagamento ou catálogo de produtos.
 
 ---
 
-## 🏢 Aplicação Interna
+## 🏢 Funcionalidade da Aplicação
 
-A aplicação foi pensada para uso interno:
+A aplicação foi projetada para uso interno:
 
-* Usuários podem consultar o clima de destinos antes de criar reservas.
-* Permite criar, listar, editar e excluir reservas, vinculadas a destinos cadastrados.
-* Todas as operações passam pelas APIs dedicadas e seguem separação clara de responsabilidades.
+* Consultar destinos e previsão do tempo antes de criar reservas.
+* Registrar reservas com detalhes do cliente, datas e quantidade de pessoas.
+* Visualizar, atualizar e excluir reservas via interface web ou APIs.
+* Todas as operações utilizam as APIs dedicadas, garantindo separação clara de responsabilidades.
 
 ---
 
-## 🔗 Rotas da API
+## 🔗 Endpoints Principais
 
 ### 👥 Reservas (API Reservations)
 
-| Método | Rota                   | Descrição                 | Status HTTP Esperado          |
-| ------ | ---------------------- | ------------------------- | ----------------------------- |
-| GET    | /api/reservations      | Lista todas as reservas   | 200 OK                        |
-| GET    | /api/reservations/{id} | Obtém uma reserva pelo ID | 200 OK / 404 Not Found        |
-| POST   | /api/reservations      | Cria uma nova reserva     | 201 Created / 400 Bad Request |
+| Método | Rota                   | Descrição               | Status Esperado               |
+| ------ | ---------------------- | ----------------------- | ----------------------------- |
+| GET    | /api/reservations      | Lista todas as reservas | 200 OK                        |
+| GET    | /api/reservations/{id} | Consulta reserva por ID | 200 OK / 404 Not Found        |
+| POST   | /api/reservations      | Cria nova reserva       | 201 Created / 400 Bad Request |
 
-### 📫 Destinos (API Destinations)
+### 🌆 Destinos (API Destinations)
 
-| Método | Rota                     | Descrição                                    | Status HTTP Esperado   |
+| Método | Rota                     | Descrição                                    | Status Esperado        |
 | ------ | ------------------------ | -------------------------------------------- | ---------------------- |
-| GET    | /api/destinations/{city} | Retorna dados do destino e previsão do tempo | 200 OK / 404 Not Found |
+| GET    | /api/destinations/{city} | Retorna dados do destino e previsão do clima | 200 OK / 404 Not Found |
 
-Formato de resposta esperado:
+Exemplo de resposta JSON:
 
 ```json
 {
   "id": "GUID-do-destino",
-  "name": "São Paulo",
+  "name": "Rio de Janeiro",
   "country": "Brasil",
-  "description": "Capital paulista",
-  "averagePrice": 1500.00
+  "description": "Cidade maravilhosa, famosa pelo Cristo Redentor",
+  "averagePrice": 2200.00,
+  "weather": {
+    "temperature": 28,
+    "condition": "Ensolarado"
+  }
 }
 ```
 
-Caso o destino/cidade não exista, a API retorna **404 Not Found**.
+Se o destino não existir, a API retorna **404 Not Found**.
 
 ---
 
-## 📋 Pré‑requisitos
+## 📋 Pré-requisitos
 
-* .NET SDK 8.0+ instalado
-* Oracle acessível (instância/serviço) para persistência
-* Ferramenta de banco (opcional): SQL Developer, DBeaver etc.
+* .NET SDK 8.0+
+* Oracle acessível (instância ou serviço) para persistência
+* Ferramenta opcional para visualização de banco (DBeaver, SQL Developer, etc.)
 
 ---
 
-## ⚙️ Como Instalar e Rodar
+## ⚙️ Como Instalar e Executar
 
-1. **Clonar o repositório**
+1. **Clonar repositório**
 
 ```bash
 git clone https://github.com/seu-usuario/travelbuddy.git
 cd travelbuddy
 ```
 
-2. **Configurar a conexão com Oracle**
-   Edite o `appsettings.json` das APIs para definir a string de conexão:
+2. **Configurar conexão Oracle**
+   Edite `appsettings.json` das APIs:
 
 ```json
 "ConnectionStrings": {
@@ -99,18 +93,18 @@ cd travelbuddy
 }
 ```
 
-> Você pode usar Secret Manager ou variáveis de ambiente para não versionar credenciais.
+> É possível usar Secret Manager ou variáveis de ambiente para não versionar credenciais.
 
-3. **Aplicar migrations e subir as APIs**
+3. **Aplicar migrations e iniciar APIs**
 
 ```bash
-# Cria/atualiza o schema no Oracle
+# Atualiza schema Oracle
 dotnet ef database update -p TravelBuddy.Infrastructure.Persistence -s TravelBuddy.Reservations.Api
 
-# Sobe a API de Reservas
+# Iniciar API de Reservas
 dotnet run --project TravelBuddy.Reservations.Api
 
-# Em outro terminal, sobe a API de Destinos
+# Iniciar API de Destinos em outro terminal
 dotnet run --project TravelBuddy.Destinations.Api
 ```
 
@@ -119,19 +113,19 @@ dotnet run --project TravelBuddy.Destinations.Api
 * API de Reservas: `http://localhost:{porta}/swagger`
 * API de Destinos: `http://localhost:{porta}/swagger`
 
-As portas dependem do `launchSettings.json` ou configuração local.
+> As portas podem variar conforme `launchSettings.json`.
 
 ---
 
-## ✅ Exemplo de Fluxo
+## ✅ Fluxo de Uso Sugerido
 
-1. **Consultar destino e clima**
+1. **Consultar destino**
 
 ```
-GET /api/destinations/Sao%20Paulo
+GET /api/destinations/Rio%20de%20Janeiro
 ```
 
-Resposta: JSON com informações do destino ou 404.
+Resposta: dados do destino + previsão do tempo.
 
 2. **Criar reserva**
 
@@ -141,16 +135,16 @@ Content-Type: application/json
 
 {
   "destinationId": "GUID-do-destino",
-  "customerName": "João Silva",
-  "travelDate": "2025-09-01",
-  "numberOfPeople": 2,
-  "totalPrice": 3000.00
+  "customerName": "Maria Oliveira",
+  "travelDate": "2025-09-15",
+  "numberOfPeople": 3,
+  "totalPrice": 6600.00
 }
 ```
 
-Resposta: **201 Created** com o ID da reserva gerado.
+Resposta: **201 Created** com ID da reserva.
 
-3. **Consultar reserva por ID**
+3. **Consultar reserva criada**
 
 ```
 GET /api/reservations/{id}
@@ -161,25 +155,17 @@ GET /api/reservations/{id}
 ## 📐 Princípios SOLID Aplicados
 
 * **SRP — Single Responsibility Principle**
-
-  * Controllers tratam apenas HTTP.
-  * Serviços de aplicação concentram regras de negócio.
-  * Repositórios cuidam exclusivamente da persistência.
-  * Clientes de integração encapsulam chamadas externas.
+  Cada classe tem responsabilidade única: controllers lidam com HTTP, serviços com regras de negócio, repositórios com persistência e clientes HTTP com integrações externas.
 
 * **OCP — Open/Closed Principle**
-
-  * Serviços dependem de interfaces (`IReservationRepository`, `IOpenMeteoClient`).
-  * Extensões podem ser feitas sem alterar o código existente.
+  Serviços dependem de interfaces (`IReservationRepository`, `IOpenMeteoClient`) e podem ser estendidos sem alterar código existente.
 
 * **DIP — Dependency Inversion Principle**
-
-  * Camadas de alto nível dependem de abstrações, não de detalhes concretos.
-  * Implementações concretas (EF Core, HttpClient) são injetadas via DI.
+  Camadas de alto nível dependem de abstrações; implementações concretas são injetadas via DI, mantendo baixo acoplamento.
 
 ---
 
-## 🧭 Estrutura (visão geral)
+## 🧭 Estrutura Geral do Projeto
 
 ```
 travelbuddy/
@@ -195,10 +181,20 @@ travelbuddy/
 
 ---
 
-## 🧪 Boas práticas
+## 🧪 Boas Práticas Implementadas
 
-* Swagger habilitado em ambas as APIs (`/swagger`).
-* Validações e mensagens de erro claras (400/404/201 etc.).
-* DTOs dedicados em `Shared.Contracts` para desacoplar camadas.
-* DI configurada para serviços, repositórios e integrações.
-* Configurações e portas ajustáveis via `launchSettings.json` e `appsettings*.json`.
+* Swagger habilitado nas APIs (`/swagger`).
+* Mensagens de erro claras e consistentes (400/404/201).
+* DTOs dedicados para desacoplar camadas.
+* Injeção de dependência configurada para serviços, repositórios e integrações externas.
+* Configurações flexíveis via `launchSettings.json` e `appsettings*.json`.
+
+---
+
+## 🖼 System Design
+
+graph TD
+MCV["MVC: TravelBuddy.Web.Mvc"] -->|Chamadas HTTP| DestApi["Destinations API"]
+MCV -->|Chamadas HTTP| ResApi["Reservations API"]
+DestApi -->|Consulta| Integration["OpenMeteo Client"]
+ResApi -->|Persistência| Oracle["Oracle DB via EF Core"]

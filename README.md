@@ -202,5 +202,3 @@ travelbuddy/
 * DTOs dedicados em `Shared.Contracts` para desacoplar camadas.
 * DI configurada para serviços, repositórios e integrações.
 * Configurações e portas ajustáveis via `launchSettings.json` e `appsettings*.json`.
-
----

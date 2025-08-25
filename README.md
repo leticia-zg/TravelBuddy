@@ -193,8 +193,21 @@ travelbuddy/
 
 ## 🖼 System Design
 
-graph TD
-MCV["MVC: TravelBuddy.Web.Mvc"] -->|Chamadas HTTP| DestApi["Destinations API"]
-MCV -->|Chamadas HTTP| ResApi["Reservations API"]
-DestApi -->|Consulta| Integration["OpenMeteo Client"]
-ResApi -->|Persistência| Oracle["Oracle DB via EF Core"]
+```mermaid
+flowchart LR
+    subgraph MVC [TravelBuddy.Web.Mvc]
+        A[Interface Web MVC] -->|HTTP requests| B[API de Reservas]
+        A -->|HTTP requests| C[API de Destinos]
+    end
+
+    subgraph APIs [Microsserviços]
+        B[TravelBuddy.Reservations.Api] -->|CRUD reservas| D[(Oracle DB)]
+        C[TravelBuddy.Destinations.Api] -->|Consulta destinos| D
+        C -->|HTTP GET / clima| E[OpenMeteo API]
+    end
+
+    style MVC fill:#f9f,stroke:#333,stroke-width:2px
+    style APIs fill:#bbf,stroke:#333,stroke-width:2px
+    style D fill:#fff,stroke:#333,stroke-width:2px
+    style E fill:#ffc,stroke:#333,stroke-width:2px
+

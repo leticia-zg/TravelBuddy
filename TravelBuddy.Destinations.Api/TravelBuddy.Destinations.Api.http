@@ -1,0 +1,6 @@
+@TravelBuddy.Destinations.Api_HostAddress = http://localhost:5182
+
+GET {{TravelBuddy.Destinations.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,44 @@
+﻿@using TravelBuddy.Shared.Contracts.Reservations
+@model IEnumerable<ReservationDto>
+
+    @{
+    Layout = "_Layout";
+    ViewData["Title"] = "TravelBuddy";
+    }
+
+    <h1>🌍 TravelBuddy</h1>
+
+    @if (TempData["msg"] != null)
+{
+    <p>@TempData["msg"]</p>
+}
+
+    <h2>📌 Minhas Reservas</h2>
+    @if (!Model.Any())
+{
+    <p>Nenhuma reserva encontrada.</p>
+}
+else
+{
+    <ul>
+        @foreach (var r in Model)
+        {
+        <li>
+            <b>@r.CustomerName</b> → @r.DestinationId
+            (@r.TravelDate.ToShortDateString()) 💰 @r.TotalPrice.ToString("C")
+        </li>
+        }
+    </ul>
+}
+
+    <hr />
+
+    <h3>➕ Criar reserva</h3>
+    <form method="post" asp-action="Create">
+        <input name="DestinationId" placeholder="Id do Destino" />
+        <input name="CustomerName" placeholder="Seu nome" />
+        <input name="TravelDate" type="date" />
+        <input name="NumberOfPeople" type="number" />
+        <input name="TotalPrice" type="number" step="0.01" />
+        <button type="submit">Salvar</button>
+    </form>

@@ -1,0 +1,30 @@
+﻿@using TravelBuddy.Shared.Contracts.Destinations
+@model DestinationDto
+
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Destino";
+}
+
+<h2>🌤️ Resultado da busca</h2>
+
+@if (Model is null)
+{
+<p>Cidade não encontrada.</p>
+}
+else
+{
+<dl>
+    <dt>Nome</dt>
+    <dd>@Model.Name</dd>
+    <dt>País</dt>
+    <dd>@Model.Country</dd>
+    <dt>Descrição</dt>
+    <dd>@Model.Description</dd>
+    <dt>Preço Médio</dt>
+    <dd>@Model.AveragePrice.ToString("C")</dd>
+</dl>
+}
+
+<a asp-action="Index">Voltar</a>

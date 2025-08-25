@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TravelBuddy</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li><a asp-controller="Home" asp-action="Destination">Buscar Destino</a></li>
+            </ul>
+        </nav>
+        <hr />
+    </header>
+
+    <main role="main" class="container">
+        @RenderBody()
+    </main>
+
+    <footer>
+        <hr />
+        <p>&copy; @DateTime.Now.Year - TravelBuddy</p>
+    </footer>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

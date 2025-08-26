@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TravelBuddy.Domain\TravelBuddy.Domain.csproj" />
+    <ProjectReference Include="..\TravelBuddy.Infrastructure.Integration\TravelBuddy.Infrastructure.Integration.csproj" />
     <ProjectReference Include="..\TravelBuddy.Shared.Contracts\TravelBuddy.Shared.Contracts.csproj" />
   </ItemGroup>
 

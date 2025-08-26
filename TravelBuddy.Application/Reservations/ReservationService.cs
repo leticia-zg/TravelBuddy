@@ -4,7 +4,7 @@ using TravelBuddy.Shared.Contracts.Reservations;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
-using System.Linq; // necessário para Select
+using System.Linq; 
 using System.Collections.Generic;
 
 namespace TravelBuddy.Application.Reservations
@@ -20,7 +20,7 @@ namespace TravelBuddy.Application.Reservations
 
         public async Task<IReadOnlyList<ReservationDto>> GetAllAsync(CancellationToken ct = default)
         {
-            var reservations = await _repo.GetAllAsync(); // remova ct se o repo não aceitar
+            var reservations = await _repo.GetAllAsync(); 
             return reservations
                 .Select(r => new ReservationDto(r.Id, r.DestinationId, r.CustomerName, r.TravelDate, r.NumberOfPeople, r.TotalPrice))
                 .ToList();
@@ -28,7 +28,7 @@ namespace TravelBuddy.Application.Reservations
 
         public async Task<ReservationDto?> GetByIdAsync(Guid id, CancellationToken ct = default)
         {
-            var r = await _repo.GetByIdAsync(id); // remova ct se o repo não aceitar
+            var r = await _repo.GetByIdAsync(id); 
             return r is null ? null : new ReservationDto(r.Id, r.DestinationId, r.CustomerName, r.TravelDate, r.NumberOfPeople, r.TotalPrice);
         }
 
@@ -44,7 +44,7 @@ namespace TravelBuddy.Application.Reservations
                 TotalPrice = request.TotalPrice
             };
 
-            await _repo.AddAsync(entity); // remova ct se o repo não aceitar
+            await _repo.AddAsync(entity); 
             return entity.Id;
         }
     }

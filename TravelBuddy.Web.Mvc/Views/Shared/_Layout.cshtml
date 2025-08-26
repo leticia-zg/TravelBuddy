@@ -4,26 +4,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TravelBuddy</title>
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                <li><a asp-controller="Home" asp-action="Destination">Buscar Destino</a></li>
-            </ul>
-        </nav>
-        <hr />
+    <header class="tb-navbar">
+        <div class="tb-container">
+            <div class="tb-brand">TravelBuddy</div>
+        </div>
     </header>
 
-    <main role="main" class="container">
+    <main role="main" class="tb-container">
         @RenderBody()
     </main>
 
-    <footer>
-        <hr />
-        <p>&copy; @DateTime.Now.Year - TravelBuddy</p>
+    <footer class="tb-footer">
+        <div class="tb-container">© @DateTime.Now.Year - TravelBuddy</div>
     </footer>
 
     @RenderSection("Scripts", required: false)

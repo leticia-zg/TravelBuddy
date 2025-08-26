@@ -1,7 +1,7 @@
 using TravelBuddy.Domain.Entities;
 using TravelBuddy.Domain.Repositories;
 using TravelBuddy.Shared.Contracts.Destinations;
-using TravelBuddy.Infrastructure.Integration.Clients; // para o IOpenMeteoClient
+using TravelBuddy.Infrastructure.Integration.Clients; 
 using System.Threading.Tasks;
 using System.Threading;
 using System;
@@ -23,7 +23,7 @@ namespace TravelBuddy.Application.Destinations
 
         public async Task<IReadOnlyList<DestinationDto>> GetAllAsync(CancellationToken ct = default)
         {
-            var destinations = await _repo.GetAllAsync(); // remova ct se o repo não aceitar
+            var destinations = await _repo.GetAllAsync(); 
             return destinations
                 .Select(d => new DestinationDto(d.Id, d.Name, d.Country, d.Description, d.AveragePrice))
                 .ToList();
@@ -31,7 +31,7 @@ namespace TravelBuddy.Application.Destinations
 
         public async Task<DestinationDto?> GetByIdAsync(Guid id, CancellationToken ct = default)
         {
-            var d = await _repo.GetByIdAsync(id); // remova ct se o repo não aceitar
+            var d = await _repo.GetByIdAsync(id);
             return d is null ? null : new DestinationDto(d.Id, d.Name, d.Country, d.Description, d.AveragePrice);
         }
 
@@ -46,7 +46,7 @@ namespace TravelBuddy.Application.Destinations
                 AveragePrice = request.AveragePrice
             };
 
-            await _repo.AddAsync(entity); // remova ct se o repo não aceitar
+            await _repo.AddAsync(entity); 
             return entity.Id;
         }
 

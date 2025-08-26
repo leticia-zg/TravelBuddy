@@ -26,14 +26,13 @@ namespace TravelBuddy.Infrastructure.Integration.Clients
 
         public async Task<DestinationDto?> GetDestinationWeatherAsync(string city, CancellationToken ct = default)
         {
-            // 1) Buscar coordenadas da cidade (count maior e sem country)
+            
             var geoUrl = $"https://geocoding-api.open-meteo.com/v1/search?name={Uri.EscapeDataString(city)}&count=5";
             var geoResponse = await _http.GetFromJsonAsync<GeoCodingResponse>(geoUrl, ct);
 
             if (geoResponse?.Results is null || geoResponse.Results.Length == 0)
                 return null;
 
-            // Filtrar apenas cidades brasileiras
             var place = geoResponse.Results.FirstOrDefault(r => r.Country != null && r.Country.Length > 0);
 
             if (place == null)
@@ -43,14 +42,12 @@ namespace TravelBuddy.Infrastructure.Integration.Clients
             var longitude = place.Longitude.ToString(CultureInfo.InvariantCulture);
 
 
-            // 2) Buscar clima pela latitude/longitude
             var weatherUrl = $"{_opts.BaseUrl}/v1/forecast?latitude={latitude}&longitude={longitude}&current_weather=true";
             var weather = await _http.GetFromJsonAsync<WeatherResponse>(weatherUrl, ct);
 
             if (weather?.CurrentWeather is null)
                 return null;
 
-            // 3) Mapear para DestinationDto
             return new DestinationDto(
                 Guid.NewGuid(),
                 place.Name,
@@ -60,7 +57,6 @@ namespace TravelBuddy.Infrastructure.Integration.Clients
             );
         }
 
-        // Tipos auxiliares internos
         private sealed class GeoCodingResponse
         {
             public GeoResult[]? Results { get; set; }

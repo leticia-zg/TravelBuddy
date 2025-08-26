@@ -7,7 +7,6 @@ namespace Web.TravelBuddy.Mvc.Controllers
 {
     public sealed class HomeController(IHttpClientFactory httpFactory) : Controller
     {
-        // GET /
         public async Task<IActionResult> Index(CancellationToken ct)
         {
             var reservationsApi = httpFactory.CreateClient("reservations");
@@ -18,7 +17,6 @@ namespace Web.TravelBuddy.Mvc.Controllers
             return View(reservations);
         }
 
-        // POST /Home/Create
         [HttpPost]
         public async Task<IActionResult> Create(CreateReservationRequest dto, CancellationToken ct)
         {
@@ -29,7 +27,6 @@ namespace Web.TravelBuddy.Mvc.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET /Home/Destination?city=Sao%20Paulo
         public async Task<IActionResult> Destination(string city, CancellationToken ct)
         {
             if (string.IsNullOrWhiteSpace(city))

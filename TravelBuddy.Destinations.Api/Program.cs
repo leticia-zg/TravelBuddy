@@ -41,7 +41,7 @@ var retryPolicy = HttpPolicyExtensions
     .Or<TimeoutRejectedException>()
     .WaitAndRetryAsync(
         retryCount: 3,
-        sleepDurationProvider: attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)), // exponencial
+        sleepDurationProvider: attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)),
         onRetry: (outcome, timespan, retryAttempt, context) =>
         {
             var logger = builder.Services.BuildServiceProvider()

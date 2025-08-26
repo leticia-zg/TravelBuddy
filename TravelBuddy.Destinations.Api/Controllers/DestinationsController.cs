@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Threading;
 using TravelBuddy.Shared.Contracts.Destinations;
-using TravelBuddy.Application.Destinations; // supondo que o service está aqui
+using TravelBuddy.Application.Destinations; 
 
 namespace TravelBuddy.Destinations.Api.Controllers
 {
